@@ -141,6 +141,17 @@ Now try to guess the output of these commands
 
     ```{r}
     length(x)
+
+    ```
+
+    length returns the number of time.
+
+    ```{r}
+    max(x)
+    ```
+
+    ```{r}
+    length(x)
     max(x)
     x[x < 10]
     x^2
@@ -152,10 +163,24 @@ INSERT AN R CHUNK HERE AND RUN EACH OF THESE COMMANDS. Add a new chunk
 by clicking the *Insert Chunk* button on the toolbar or by pressing
 *Ctrl+Alt+I*. Then state what each of these does.
 
+*Length of x returns the number of elements in a vector. max returns the
+highest value. square brackets allows you to return (or work with) only
+portions of a vector. \^2 squares a value.*
+
 #### 3
 
 Is `-1:2` the same as `(-1):2` or `-(1:2)`? INSERT AN R CHUNK HERE AND
 RUN EACH OF THESE COMMANDS. Then state what each of these does.
+
+```{r}
+-1:2
+(-1):2
+-(1:2)
+```
+
+*The first creates a sequence from -1 to 2 by ones (see question 1). The
+second does the same. The third creates a sequence from 1 to 2 then
+applies a negative to it.*
 
 ### Data input, plotting, and tests
 
@@ -178,12 +203,32 @@ of data is stored in each variable?
 
 ENTER ANSWERS HERE. ADD ANY R CHUNKS YOU USED TO FIND THE ANSWER.
 
+```{r}
+dim(sleep)
+```
+
+*dim returns the number of rows and columns (IN THAT ORDER) in a
+dataframe! So sleep has `r dim(sleep)[1]` rows. NOTE: If you look at the
+.Rmd code here, you can see how to put R output inline (instead of in
+chunks).*
+
+```{r}
+str(sleep)
+```
+
+*the str function returns the size of the dataset and the class of each
+column. Note how we use the the \$ notation to select columns.*
+
 #### 5
 
 Change the column named *BodyWt* to *Body_weight*"\* in the sleep
 dataset.
 
 ADD ANY R CHUNKS YOU USED TO COMPLETE THE TASK.
+
+```{r}
+names(sleep)[names(sleep) %in% "BodyWt"] <- "Body_weight"
+```
 
 #### 6
 
@@ -221,6 +266,15 @@ NOTE YOU CAN ADD A PLOT TO THE DOCUMENT TOO! AMEND THE BELOW AS NEEDED.
 plot(cars)
 ```
 
+```{r}
+plot(TotalSleep ~ Primate, sleep)
+```
+
+```{r}
+plot(TotalSleep ~ factor(Primate), sleep, main = "Variance in sleep differs between primates and non-primates", 
+     xlab = "Primate", ylab = "Total sleep (hours)")
+```
+
 #### 7
 
 The **sleep** dataset begs to have a linear model fit for it. Let's
@@ -230,6 +284,26 @@ model to obtain the p-value for the model (hint: summary()). What does
 this imply?
 
 ENTER ANSWERS HERE. ADD ANY R CHUNKS YOU USED TO FIND THE ANSWER.
+
+```{r}
+plot(TotalSleep ~ BrainWt, sleep)
+
+```
+
+```{r}
+sleep_fit <- lm(TotalSleep ~ BrainWt, sleep[sleep$BrainWt<1000,])
+summary(sleep_fit)
+```
+
+*We see a significant (p \<.05, don't worry, we'll see this later)
+relationship between BrainWt and TotalSleep, and it appears that
+TotalSleep decreases as BrainWt increases (note the negative estimate).
+We can visualize this using*
+
+```{r}
+plot(TotalSleep ~ BrainWt, data = sleep[sleep$BrainWt <  1000, ])
+abline(sleep_fit)
+```
 
 ### EXTRA QUESTIONS
 
