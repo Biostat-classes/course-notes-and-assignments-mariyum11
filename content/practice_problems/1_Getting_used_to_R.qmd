@@ -1,6 +1,9 @@
 ---
 title: "Getting used to R"
 bibliography: ../references.bib
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 <!-- COMMENT NOT SHOW IN ANY OUTPUT: Code chunk below sets overall defaults for .qmd file; these inlcude showing output by default and looking for files relative to .Rpoj file, not .qmd file, which makes putting filesin different folders easier  -->
@@ -14,9 +17,10 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 The focus of this overview is to get you used to tools we will be using
 in class. Before completing it you should have a basic understanding of
-using R. We will do an introduction in class [(download help file)](../Primer_material/R_primer.R). 
-You should also be comfortable using Rstudio and github
-[(see help file)](../Primer_material/Tools_overview.qmd).
+using R. We will do an introduction in class [(download help
+file)](../Primer_material/R_primer.R). You should also be comfortable
+using Rstudio and github [(see help
+file)](../Primer_material/Tools_overview.qmd).
 
 #### Rmd basics
 
@@ -118,17 +122,31 @@ What does it return?
 
 Determine what the ":" does! Complete the following sentence:
 
-The : means FILL THIS IN.
+The : means make a list from the bottom number to the top number that
+includes all integers in the interval.
 
 #### 2
 
 Now try to guess the output of these commands
 
 -   length(x)
+
 -   max(x)
--   x[x \< 10]
+
+-   x\[x \< 10\]
+
 -   x\^2
--   x[ x \< 12 & x \> 7]
+
+-   x\[ x \< 12 & x \> 7\]
+
+    ```{r}
+    length(x)
+    max(x)
+    x[x < 10]
+    x^2
+    x[ x < 12 & x > 7]
+
+    ```
 
 INSERT AN R CHUNK HERE AND RUN EACH OF THESE COMMANDS. Add a new chunk
 by clicking the *Insert Chunk* button on the toolbar or by pressing
@@ -136,8 +154,8 @@ by clicking the *Insert Chunk* button on the toolbar or by pressing
 
 #### 3
 
-Is `-1:2` the same as `(-1):2` or `-(1:2)`? INSERT AN R CHUNK HERE
-    AND RUN EACH OF THESE COMMANDS. Then state what each of these does.
+Is `-1:2` the same as `(-1):2` or `-(1:2)`? INSERT AN R CHUNK HERE AND
+RUN EACH OF THESE COMMANDS. Then state what each of these does.
 
 ### Data input, plotting, and tests
 
@@ -155,22 +173,22 @@ Info on the dataset is viewable \@
 
 #### 4
 
-How many rows does the **sleep** data set have (hint: `?dim`)? What
-    kind of data is stored in each variable?
+How many rows does the **sleep** data set have (hint: `?dim`)? What kind
+of data is stored in each variable?
 
 ENTER ANSWERS HERE. ADD ANY R CHUNKS YOU USED TO FIND THE ANSWER.
 
 #### 5
 
 Change the column named *BodyWt* to *Body_weight*"\* in the sleep
-    dataset.
+dataset.
 
 ADD ANY R CHUNKS YOU USED TO COMPLETE THE TASK.
 
 #### 6
 
-Produce a plot of how *TotalSleep* differs between primates and
-    other species. What is this plot showing?
+Produce a plot of how *TotalSleep* differs between primates and other
+species. What is this plot showing?
 
 Note, as of early 2020 R no longer reads in strings as factors! This
 means the Primate column, which is full of "Yes"s and "No"s, reads in as
@@ -206,10 +224,10 @@ plot(cars)
 #### 7
 
 The **sleep** dataset begs to have a linear model fit for it. Let's
-    consider. First plot how *TotalSleep* is explained by *BrainWt*. Are
-    there any issues with the data? Exclude any outlier and fit a linear
-    model to obtain the p-value for the model (hint: summary()). What
-    does this imply?
+consider. First plot how *TotalSleep* is explained by *BrainWt*. Are
+there any issues with the data? Exclude any outlier and fit a linear
+model to obtain the p-value for the model (hint: summary()). What does
+this imply?
 
 ENTER ANSWERS HERE. ADD ANY R CHUNKS YOU USED TO FIND THE ANSWER.
 
@@ -224,15 +242,14 @@ text](https://upload.wikimedia.org/wikipedia/commons/9/94/Puffin_Mrkoww.jpg)
 
 #### 8
 
-Sometimes data doesn't have headers (column names),so you have to
-    add them. Download a dataset on alcids (birds like puffins and
-    auklets) from
-    <https://raw.githubusercontent.com/jsgosnell/CUNY-BioStats/master/datasets/alcids55.csv>.\
-    You'll need to modify the read.csv function by specifying
-    `header = False`, then use the `names` function to name the columns
-    ["year", "a1_abund", "NAO", "a2_abund", "a3_abund", "a4_abund",
-    "a5_abund", "a6_abund"]. Try it and check your input using the
-    `head` command.
+Sometimes data doesn't have headers (column names),so you have to add
+them. Download a dataset on alcids (birds like puffins and auklets) from
+<https://raw.githubusercontent.com/jsgosnell/CUNY-BioStats/master/datasets/alcids55.csv>.\
+You'll need to modify the read.csv function by specifying
+`header = False`, then use the `names` function to name the columns
+\["year", "a1_abund", "NAO", "a2_abund", "a3_abund", "a4_abund",
+"a5_abund", "a6_abund"\]. Try it and check your input using the `head`
+command.
 
 ENTER ANSWERS HERE. ADD ANY R CHUNKS YOU USED TO FIND THE ANSWER.
 

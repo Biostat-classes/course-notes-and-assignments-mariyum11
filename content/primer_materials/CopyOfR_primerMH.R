@@ -1,5 +1,5 @@
 ##INTRODUCTION TO R####
-##JSG, 7/2/22
+## test student
 
 #this is a broad introduction to how R works and what it can do
 #we'll return to individual topics in later sessions (both theory and practice)
@@ -117,7 +117,7 @@ x
 
 #YOUR FIRST FUNCTION####
 #now lets go back to the class thing and use our first function#
-class(x)
+class (x)
 #class (above) is the first recognizable function you've used.  A function is a set of code
 #that has been given a name (saved as an  object).  The code states what type of input
 #(parameters or values, x in the case above) the code needs to run and produce some type of
