@@ -1,6 +1,9 @@
 ---
 title: "Estimation and ggplot2"
 bibliography: ../references.bib
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 <!-- COMMENT NOT SHOW IN ANY OUTPUT: Code chunk below sets overall defaults for .qmd file; these inlcude showing output by default and looking for files relative to .Rpoj file, not .qmd file, which makes putting filesin different folders easier  -->
@@ -24,8 +27,8 @@ Remember you should
 ## Overview
 
 This practice reviews the [Estimation
-lecture](../chapters/Estimation.qmd) and the use of ggplots (lots of ggplot2 
-example code in the [Summarizing data
+lecture](../chapters/Estimation.qmd) and the use of ggplots (lots of
+ggplot2 example code in the [Summarizing data
 lecture](../chapters/Summarizing_data.qmd)
 
 ### ggplot2 basics
