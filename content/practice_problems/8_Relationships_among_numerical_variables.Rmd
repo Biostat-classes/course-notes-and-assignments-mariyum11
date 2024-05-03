@@ -1,6 +1,9 @@
 ---
 title: "Relationships among numerical variables"
 bibliography: ../references.bib
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 <!-- COMMENT NOT SHOW IN ANY OUTPUT: Code chunk below sets overall defaults for .qmd file; these inlcude showing output by default and looking for files relative to .Rpoj file, not .qmd file, which makes putting filesin different folders easier  -->
@@ -13,17 +16,18 @@ source("../globals.R")
 
 Remember you should
 
-* add code chunks by clicking the *Insert Chunk* button on the toolbar or by
-pressing *Ctrl+Alt+I* to answer the questions!
-* **knit** your file to produce a markdown version that you can see!
-* save your work often 
-  * **commit** it via git!
-  * **push** updates to github
-  
+-   add code chunks by clicking the *Insert Chunk* button on the toolbar
+    or by pressing *Ctrl+Alt+I* to answer the questions!
+-   **knit** your file to produce a markdown version that you can see!
+-   save your work often
+    -   **commit** it via git!
+    -   **push** updates to github
+
 ## Overview
 
-This practice reviews the [Relationships among numerical variabless lecuture](../chapters/Relationships_among_numerical_variables.qmd).
-  
+This practice reviews the [Relationships among numerical variabless
+lecuture](../chapters/Relationships_among_numerical_variables.qmd).
+
 ## Example
 
 Following the iris dataset from class
@@ -67,71 +71,229 @@ Confint(bootstrap_iris)
 ## Practice
 
 ### 1
-  
 
-1.  A professor carried out a long-term study to see how various factors impacted
-pulse rate before and after exercise.  Data can be found at 
+1.  A professor carried out a long-term study to see how various factors
+    impacted pulse rate before and after exercise. Data can be found at
 
 http://www.statsci.org/data/oz/ms212.txt
 
-With more info at 
+With more info at
 
 http://www.statsci.org/data/oz/ms212.html.
 
-Is there evidence that age, height, or weight impact change in pulse rate for students who ran (Ran column = 1)?  For each of these, how much variation in pulse rate do they explain?
+Is there evidence that age, height, or weight impact change in pulse
+rate for students who ran (Ran column = 1)? For each of these, how much
+variation in pulse rate do they explain?
 
-### 2 
+```{r}
+# Step 1: Importing the Data
+pulse <- read.table("http://www.statsci.org/data/oz/ms212.txt", header = TRUE)
 
-2. (from OZDASL repository, http://www.statsci.org/data/general/stature.html; reference for more information)
+# Step 2: Calculating Pulse Rate Change
+pulse$change <- pulse$Pulse2 - pulse$Pulse1
 
-When anthropologists analyze human skeletal remains, an important piece of
-information is living stature. Since skeletons are commonly based on
-statistical methods that utilize measurements on small bones. The following
-data was presented in a paper in the American Journal of Physical
-Anthropology to validate one such method.
-Data is available @
+# Step 3: Converting Categorical Variables to Factors
+pulse$Exercise <- as.factor(pulse$Exercise)
+pulse$Gender <- as.factor(pulse$Gender)
+
+# Step 4: Linear Regression Analysis
+# Subsetting the data for those who ran (assuming Ran indicates running)
+ran_data <- pulse[pulse$Ran == 1, ]
+exercise_model <- lm(change ~ Age, data = ran_data)
+
+# Step 5: Plotting Diagnostic Plots
+plot(exercise_model)
+
+# Step 6: Performing ANOVA Analysis
+# Loading the required package
+install.packages("car")
+library(car)
+
+# Performing ANOVA
+anova_result <- Anova(exercise_model, type = "III")
+print(anova_result)
+
+# Step 7: Summarizing the Regression Model
+summary(exercise_model)
+
+```
+
+### 2
+
+2.  (from OZDASL repository,
+    http://www.statsci.org/data/general/stature.html; reference for more
+    information)
+
+When anthropologists analyze human skeletal remains, an important piece
+of information is living stature. Since skeletons are commonly based on
+statistical methods that utilize measurements on small bones. The
+following data was presented in a paper in the American Journal of
+Physical Anthropology to validate one such method. Data is available \@
 
 http://www.statsci.org/data/general/stature.txt
 
-as a tab-delimted file (need to use read.table!)
-Is there evidence that metacarpal bone length is a good predictor of
-stature? If so, how much variation does it account for in the response
-variable?
+as a tab-delimted file (need to use read.table!) Is there evidence that
+metacarpal bone length is a good predictor of stature? If so, how much
+variation does it account for in the response variable?
+
+```{r}
+height <- read.table("http://www.statsci.org/data/general/stature.txt", 
+                     header = T, stringsAsFactors = T)
+head(height)
+metacarp_relationship <- lm(Stature ~ MetaCarp, height)
+plot(metacarp_relationship)
+Anova(metacarp_relationship, type = "III")
+summary(metacarp_relationship)
+```
+
+I used linear regression. Analysis of model assumptions suggest
+assumptions are met, although the dataset is small. Analysis suggests
+there is a significant positive relationship between metacarpal length
+and stature (F~1,7~ = 19.19, p = 0.003). The R^2^ value indicates that
+metacarpal length explains 73% of the variation in stature. Coefficients
+indicate that stature increases with increasing metacarpal length.\*
 
 ### 3
 
-3. Data on medals won by various countries in the 1992 and 1994 Olympics is
-available in a tab-delimited file at 
+3.  Data on medals won by various countries in the 1992 and 1994
+    Olympics is available in a tab-delimited file at
 
 http://www.statsci.org/data/oz/medals.txt
 
-More information on the data can be found at: 
+More information on the data can be found at:
 
 http://www.statsci.org/data/oz/medals.html
 
 Is there any relationship between a country’s population and the total
 number of medals they win?
 
+```{r}
+medals <- read.table(header = T, "http://www.statsci.org/data/oz/medals.txt", 
+                     stringsAsFactors = T)
+head(medals)
+medals$total <- medals$Summer + medals$Winter
+population_medals <- lm(total ~ Population, medals)
+plot(population_medals)
+summary(population_medals)
+Anova(population_medals, type = "III")
+cor.test(~total + Population, medals, method = "spearman")
+```
+
+There is a high leverage point in the dataset (row 4), but residuals
+appear to be fairly normally distributed and little structure exists in
+the graph of Residuals vs. Fitted Values. Analysis using linear
+regression suggests a significant positive relationship between
+population size and medal count that explains \~15% of the variation in
+the response variable. Rank- correlation analysis also indicated this
+relationship exists.
+
 ### 4
- 
-4. Continuing with the Olympic data, is there a relationship between the
-latitude of a country and the number of medals won in summer or winter
-Olympics?
+
+4.  Continuing with the Olympic data, is there a relationship between
+    the latitude of a country and the number of medals won in summer or
+    winter Olympics?
+
+    ```{r}
+     #still using medals
+    summer_medals <- lm(Summer ~ Latitude, medals)
+    plot(summer_medals)
+    Anova(summer_medals, type = "III")
+    summary(summer_medals)
+
+    winter_medals <- lm(Winter ~ Latitude, medals)
+    plot(winter_medals)
+    Anova(winter_medals, type = "III")
+    summary(winter_medals)
+    ``''
+    ```
+
+Visual analysis of residuals from both models show some structure in the
+residual and deviations from normality, but we continue on with linear
+regression given the small sample size. Both summer and winter medal
+counts are positively (surpisingly) and significantly (both p \<.05)
+related to latitude, with latitude explaining \~17% of the variation in
+winter medal count and \~8% of the data in summer medal count.\*
 
 ### 5
 
-5. Data on FEV (forced expiratory volume), a measure of lung function, can
-be found at 
+5.  Data on FEV (forced expiratory volume), a measure of lung function,
+    can be found at
 
 http://www.statsci.org/data/general/fev.txt
 
-More information on the dataset is available at 
+More information on the dataset is available at
 
 http://www.statsci.org/data/general/fev.html.
 
 Is there evidence that FEV depends on age or height? If so, how do these
-factors impact FEV, and how much variance does each explain? 
+factors impact FEV, and how much variance does each explain?
 
-### 6 
+Model assumptions appear to be met. Height appears to have a positive
+relationship with FEV (F~1,652~ = 1995, p\<.001).
 
-6. Continuing with the FEV data, produce plots that illustrate how height, age, and gender each impact FEV.  
+```{r}
+fev <- read.table("http://www.statsci.org/data/general/fev.txt", header = T, 
+                  stringsAsFactors = T)
+head(fev)
+fev_height <- lm(FEV ~ Height, fev)
+plot(fev_height)
+Anova(fev_height, type = "III")
+summary(fev_height)
+```
+
+### 6
+
+6.  Continuing with the FEV data, produce plots that illustrate how
+    height, age, and gender each impact FEV.
+
+    ```{r}
+    library(ggplot2)
+    #age plot####
+    ggplot(fev, aes(x=Age, y=FEV)) +
+      geom_point(size = 3) +
+      geom_smooth(method = "lm") +
+      ylab("FEV (L)")+ggtitle("FEV increases with age")+
+      theme(axis.title.x = element_text(face="bold", size=28), 
+            axis.title.y = element_text(face="bold", size=28), 
+            axis.text.y  = element_text(size=20),
+            axis.text.x  = element_text(size=20), 
+            legend.text =element_text(size=20),
+            legend.title = element_text(size=20, face="bold"),
+            plot.title = element_text(hjust = 0.5, face="bold", size=32))
+
+    #height plot####
+    ggplot(fev, aes(x=Height, y=FEV)) +
+      geom_point(size = 3) +
+      geom_smooth(method = "lm") +
+      ylab("FEV (L)")+ggtitle("FEV increases with height")+
+      theme(axis.title.x = element_text(face="bold", size=28), 
+            axis.title.y = element_text(face="bold", size=28), 
+            axis.text.y  = element_text(size=20),
+            axis.text.x  = element_text(size=20), 
+            legend.text =element_text(size=20),
+            legend.title = element_text(size=20, face="bold"),
+            plot.title = element_text(hjust = 0.5, face="bold", size=32))
+
+
+
+    #gender plot ####
+
+    #bar chart with error bars ####
+    library(Rmisc)
+    function_output <- summarySE(fev, measurevar="FEV", groupvars =
+                                   c("Sex"))
+
+    ggplot(function_output, aes(x=Sex, y=FEV)) +
+      geom_col(size = 3) +
+      ylab("FEV (L)") +
+      ggtitle("FEV is higher in males ")+
+      geom_errorbar(aes(ymin=FEV-ci, ymax=FEV+ci), size=1.5) +
+      theme(axis.title.x = element_text(face="bold", size=28), 
+            axis.title.y = element_text(face="bold", size=28), 
+            axis.text.y  = element_text(size=20),
+            axis.text.x  = element_text(size=20), 
+            legend.text =element_text(size=20),
+            legend.title = element_text(size=20, face="bold"),
+            plot.title = element_text(hjust = 0.5, face="bold", size=32))
+
+    ```
