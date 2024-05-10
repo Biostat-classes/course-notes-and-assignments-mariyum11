@@ -1,6 +1,9 @@
 ---
 title: "More ANOVAs"
 bibliography: ../references.bib
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 <!-- COMMENT NOT SHOW IN ANY OUTPUT: Code chunk below sets overall defaults for .qmd file; these inlcude showing output by default and looking for files relative to .Rpoj file, not .qmd file, which makes putting filesin different folders easier  -->
@@ -13,16 +16,17 @@ source("../globals.R")
 
 Remember you should
 
-* add code chunks by clicking the *Insert Chunk* button on the toolbar or by
-pressing *Ctrl+Alt+I* to answer the questions!
-* **knit** your file to produce a markdown version that you can see!
-* save your work often 
-  * **commit** it via git!
-  * **push** updates to github
-  
+-   add code chunks by clicking the *Insert Chunk* button on the toolbar
+    or by pressing *Ctrl+Alt+I* to answer the questions!
+-   **knit** your file to produce a markdown version that you can see!
+-   save your work often
+    -   **commit** it via git!
+    -   **push** updates to github
+
 ## Overview
 
-This practice reviews the [More ANOVAs lecuture](../chapters/More_ANOVAs.qmd).
+This practice reviews the [More ANOVAs
+lecuture](../chapters/More_ANOVAs.qmd).
 
 ## Examples
 
@@ -186,13 +190,14 @@ ggplot(anger_summary, aes(x=Gender, y=Anger_Expression, color=Sports,
         legend.title = element_text(size=20, face="bold"),
         plot.title = element_text(hjust = 0.5, face="bold", size=32))
 ```
-*I first read in and recoded some data for ease and plotting. I then produced a 
-plot to consider the null hypotheses that* 
 
-* *the sport an athlete plays does not influence anger level*
-* *the gender of an athlete does not influence anger level*
-* *the sport an athlete plays and their gender do not interact to influence anger 
-level*
+*I first read in and recoded some data for ease and plotting. I then
+produced a plot to consider the null hypotheses that*
+
+-   *the sport an athlete plays does not influence anger level*
+-   *the gender of an athlete does not influence anger level*
+-   *the sport an athlete plays and their gender do not interact to
+    influence anger level*
 
 ```{r}
 angry_gender <- lm(Anger_Expression ~ Sports * Gender, angry)
@@ -205,15 +210,16 @@ angry_gender <- lm(Anger_Expression ~ Sports + Gender, angry)
 plot(angry_gender)
 Anova(angry_gender, type = "III") #only differs among those who play sports
 ```
-*I then analyzed the data using factorial ANOVA.
-The outcome is continuous 
-and both explanatory variables are categorical. The design is also fully randomized. Resildual plots indicated all assumptions were met
-(there is no pattern in the residuals and they are normally distributed).
-Analysis shows an insignificant interaction (F~1,74~=.04, p=.855) between 
-sport and gender, so I removed the interaction term. The reduced model
-showed anger levels differed among athletes and non-athletes but not by 
-gender. There was no need for post-hoc tests (only 2 levels/groups for
-each categorial variable.)*
+
+*I then analyzed the data using factorial ANOVA. The outcome is
+continuous and both explanatory variables are categorical. The design is
+also fully randomized. Resildual plots indicated all assumptions were
+met (there is no pattern in the residuals and they are normally
+distributed). Analysis shows an insignificant interaction (F~1,74~=.04,
+p=.855) between sport and gender, so I removed the interaction term. The
+reduced model showed anger levels differed among athletes and
+non-athletes but not by gender. There was no need for post-hoc tests
+(only 2 levels/groups for each categorial variable.)*
 
 ### 2
 
@@ -256,12 +262,14 @@ ggplot(change_summary, aes(x=Gender, shape = Exercise, color = Exercise,
         legend.title = element_text(size=20, face="bold"),
         plot.title = element_text(hjust = 0.5, face="bold", size=32))
 ```
-*I first read in and recoded some data for ease and plotting. I then produced a 
-plot to consider the null hypotheses that* 
 
-* *exercise level does not influence change in pulse rate*
-* *gender does not influence change in pulse rate*
-* *gender and exercise level do not interact to influence change in pulse rate*
+*I first read in and recoded some data for ease and plotting. I then
+produced a plot to consider the null hypotheses that*
+
+-   *exercise level does not influence change in pulse rate*
+-   *gender does not influence change in pulse rate*
+-   *gender and exercise level do not interact to influence change in
+    pulse rate*
 
 ```{r}
 exercise <- lm(change ~ Gender * Exercise, pulse[pulse$Ran == 1, ])
@@ -274,15 +282,15 @@ summary(exercise)
 Anova(exercise, type = "III") #no significance
 ```
 
-*I then analyzed the data using factorial ANOVA.
-The outcome is continuous 
-and both explanatory variables are categorical. The design is also fully randomized. Residual plots indicated all assumptions were met
-(there is no pattern in the residuals and they are normally distributed).
-Analysis shows an insignificant interaction (F~2,40~=1.2, p=.21) between 
-exercise level and gender, so I removed the interaction term. The reduced model
-showed neither gender (F~1,42~=.16, p =.69) or exercise level (F~2,42~=.1, p=.90) 
-influenced change in pulse rate, so I failed to reject the related null 
-hypotheses.*
+*I then analyzed the data using factorial ANOVA. The outcome is
+continuous and both explanatory variables are categorical. The design is
+also fully randomized. Residual plots indicated all assumptions were met
+(there is no pattern in the residuals and they are normally
+distributed). Analysis shows an insignificant interaction (F~2,40~=1.2,
+p=.21) between exercise level and gender, so I removed the interaction
+term. The reduced model showed neither gender (F~1,42~=.16, p =.69) or
+exercise level (F~2,42~=.1, p=.90) influenced change in pulse rate, so I
+failed to reject the related null hypotheses.*
 
 ### 3
 
@@ -294,7 +302,6 @@ Import it into to R and
 -   determine how the snail grazing and nitrogen levels impact number of
     flowering shoots(Shoot.density..m2)
 -   construct a plot to showcase your analysis
-
 
 ```{r}
 valdez_2023 <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vT2gaLu6pyRMlcbzarn3ej4bFmT_iHvrlNWJYSdrsLdUWIjcJi7rU11-ipvYpGnqD9qLDnbhNd2sDUW/pub?gid=1707080634&single=true&output=csv", stringsAsFactors = T)
@@ -312,6 +319,7 @@ No interaction, so I can remove or not.
 shoot_model_reduced <- update(shoot_model, .~.- Snail.Level:Nitrogen.level)
 Anova(shoot_model_reduced)
 ```
+
 Both have impacts.
 
 ```{r}

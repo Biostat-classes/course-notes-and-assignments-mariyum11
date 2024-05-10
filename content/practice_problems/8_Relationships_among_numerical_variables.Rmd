@@ -204,7 +204,7 @@ relationship exists.
     plot(winter_medals)
     Anova(winter_medals, type = "III")
     summary(winter_medals)
-    ``''
+    ``
     ```
 
 Visual analysis of residuals from both models show some structure in the
